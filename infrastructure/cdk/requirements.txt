@@ -1,0 +1,13 @@
+# AWS CDK Core
+aws-cdk-lib==2.120.0
+constructs>=10.0.0,<11.0.0
+
+# AWS CDK Modules
+aws-cdk.aws-s3==1.204.0
+aws-cdk.aws-dynamodb==1.204.0
+aws-cdk.aws-lambda==1.204.0
+aws-cdk.aws-stepfunctions==1.204.0
+aws-cdk.aws-apigateway==1.204.0
+aws-cdk.aws-cognito==1.204.0
+aws-cdk.aws-events==1.204.0
+aws-cdk.aws-cloudwatch==1.204.0
