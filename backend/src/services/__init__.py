@@ -43,6 +43,24 @@ from .event_rules import (
     IntelligenceLoopEventRules,
     LoopMonitoring
 )
+from .cloudwatch_monitoring import (
+    CloudWatchLogger,
+    AgentPerformanceMetrics,
+    WorkflowExecutionMetrics,
+    SystemHealthMetrics,
+    CloudWatchMonitoringService,
+    MetricUnit,
+    MetricNamespace,
+    get_monitoring_service
+)
+from .audit_trail_system import (
+    AuditTrailSystem,
+    DecisionHistoryTracker,
+    WorkflowModificationLogger,
+    ComplianceReportingService,
+    ComplianceReportType,
+    get_audit_trail_system
+)
 
 __all__ = [
     'AICouncil',
@@ -76,5 +94,19 @@ __all__ = [
     'EventPattern',
     'EventRule',
     'IntelligenceLoopEventRules',
-    'LoopMonitoring'
+    'LoopMonitoring',
+    'CloudWatchLogger',
+    'AgentPerformanceMetrics',
+    'WorkflowExecutionMetrics',
+    'SystemHealthMetrics',
+    'CloudWatchMonitoringService',
+    'MetricUnit',
+    'MetricNamespace',
+    'get_monitoring_service',
+    'AuditTrailSystem',
+    'DecisionHistoryTracker',
+    'WorkflowModificationLogger',
+    'ComplianceReportingService',
+    'ComplianceReportType',
+    'get_audit_trail_system'
 ]
