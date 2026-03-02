@@ -424,14 +424,26 @@ class RiskComplianceAgent(BaseAgent):
         anomalies = []
         fraud_alerts = []
         
-        # Calculate baseline statistics
+        # Calculate baseline statistics using robust method (median and MAD)
+        # to avoid contamination from outliers
         amounts = [t.amount for t in transactions]
         if len(amounts) > 1:
-            avg_amount = statistics.mean(amounts)
-            std_amount = statistics.stdev(amounts)
+            # Use median and MAD (Median Absolute Deviation) for robust statistics
+            median_amount = statistics.median(amounts)
+            mad = statistics.median([abs(x - median_amount) for x in amounts])
             
-            # Detect amount anomalies (transactions > 3 standard deviations)
-            threshold = avg_amount + 3 * std_amount
+            # Convert MAD to standard deviation equivalent (MAD * 1.4826)
+            # Then use 3 sigma rule: threshold = median + 3 * (MAD * 1.4826)
+            if mad > 0:
+                threshold = median_amount + 3 * (mad * 1.4826)
+            else:
+                # Fallback to mean/std if MAD is 0 (all values are the same)
+                avg_amount = statistics.mean(amounts)
+                if len(amounts) > 2:
+                    std_amount = statistics.stdev(amounts)
+                    threshold = avg_amount + 3 * std_amount
+                else:
+                    threshold = avg_amount * 2  # Simple heuristic for small samples
             
             for transaction in transactions:
                 # Check for amount anomalies

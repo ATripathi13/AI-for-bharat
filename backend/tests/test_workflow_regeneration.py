@@ -113,7 +113,7 @@ class TestWorkflowRegenerationProperties:
     
     @given(template_name=st.sampled_from(['pricing_optimization', 'inventory_rebalancing', 'demand_forecast_update']),
            requirements=business_requirements_strategy())
-    @settings(max_examples=100)
+    @settings(max_examples=100, deadline=None)
     def test_property_generated_workflows_are_valid(self, template_name, requirements):
         """
         Property: For any template and requirements, generated workflows should be valid

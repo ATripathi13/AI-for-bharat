@@ -21,6 +21,11 @@ from .compliance_alert import (
     AlertSeverity,
     AlertStatus
 )
+from .explainability import (
+    ExplainabilityService,
+    ExplanationTrace,
+    ReasoningStep
+)
 
 __all__ = [
     'AICouncil',
@@ -40,5 +45,8 @@ __all__ = [
     'ComplianceAlert',
     'RemediationEngine',
     'AlertSeverity',
-    'AlertStatus'
+    'AlertStatus',
+    'ExplainabilityService',
+    'ExplanationTrace',
+    'ReasoningStep'
 ]

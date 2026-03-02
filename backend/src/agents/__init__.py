@@ -13,6 +13,7 @@ from .market_intelligence_agent import MarketIntelligenceAgent
 from .demand_forecast_agent import DemandForecastAgent
 from .risk_compliance_agent import RiskComplianceAgent
 from .workflow_regeneration_agent import WorkflowRegenerationAgent
+from .business_copilot_agent import BusinessCopilotAgent, QueryIntent, ConversationContext, CopilotResponse
 
 __all__ = [
     'BaseAgent',
@@ -28,5 +29,9 @@ __all__ = [
     'MarketIntelligenceAgent',
     'DemandForecastAgent',
     'RiskComplianceAgent',
-    'WorkflowRegenerationAgent'
+    'WorkflowRegenerationAgent',
+    'BusinessCopilotAgent',
+    'QueryIntent',
+    'ConversationContext',
+    'CopilotResponse'
 ]

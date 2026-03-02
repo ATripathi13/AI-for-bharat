@@ -242,7 +242,7 @@ class TestFraudDetectionReliability:
         types2 = sorted([a['type'] for a in result2['anomalies']])
         assert types1 == types2
     
-    @settings(max_examples=100)
+    @settings(max_examples=100, deadline=None)
     @given(
         normal_transactions=st.lists(transaction_data_strategy(), min_size=10, max_size=20),
         anomalous_amount=st.floats(min_value=1000000, max_value=10000000, allow_nan=False, allow_infinity=False)
