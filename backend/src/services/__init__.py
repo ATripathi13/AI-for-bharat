@@ -80,6 +80,28 @@ from .sagemaker_deployment import (
     EndpointStatus,
     DriftStatus
 )
+from .opensearch_service import (
+    OpenSearchService,
+    DocumentMetadata,
+    SearchResult,
+    get_opensearch_service
+)
+from .document_ingestion import (
+    DocumentIngestionPipeline,
+    IngestionResult,
+    get_ingestion_pipeline
+)
+from .embedding_service import (
+    EmbeddingService,
+    EmbeddingResult,
+    get_embedding_service
+)
+from .semantic_search import (
+    SemanticSearchService,
+    SemanticSearchQuery,
+    KnowledgeRetrievalResult,
+    get_semantic_search_service
+)
 
 __all__ = [
     'AICouncil',
@@ -142,5 +164,19 @@ __all__ = [
     'DriftMetrics',
     'ABTestConfig',
     'EndpointStatus',
-    'DriftStatus'
+    'DriftStatus',
+    'OpenSearchService',
+    'DocumentMetadata',
+    'SearchResult',
+    'get_opensearch_service',
+    'DocumentIngestionPipeline',
+    'IngestionResult',
+    'get_ingestion_pipeline',
+    'EmbeddingService',
+    'EmbeddingResult',
+    'get_embedding_service',
+    'SemanticSearchService',
+    'SemanticSearchQuery',
+    'KnowledgeRetrievalResult',
+    'get_semantic_search_service'
 ]

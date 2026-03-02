@@ -12,6 +12,7 @@ from .base_agent import BaseAgent
 from ..models.agent_decision import AgentDecision, Recommendation
 from ..services.explainability import ExplainabilityService
 from ..services.feedback_learning import FeedbackLearningService, FeedbackType, FeedbackCategory
+from ..services.semantic_search import SemanticSearchService, SemanticSearchQuery, get_semantic_search_service
 
 
 @dataclass
@@ -98,6 +99,7 @@ class BusinessCopilotAgent(BaseAgent):
         self.conversations: Dict[str, ConversationContext] = {}
         self.explainability_service = ExplainabilityService()
         self.feedback_service = FeedbackLearningService()
+        self.semantic_search = get_semantic_search_service()
         
         # Intent patterns for query classification
         self.intent_patterns = {
@@ -257,11 +259,23 @@ class BusinessCopilotAgent(BaseAgent):
         # Step 1: Understand the query
         reasoning_trace.append(f"Identified intent: {intent.intent_type} with confidence {intent.confidence:.2f}")
         
-        # Step 2: Determine which agents to coordinate with
+        # Step 2: Retrieve relevant context using semantic search
+        relevant_contexts = self.semantic_search.retrieve_relevant_context(
+            query=intent.original_query,
+            context_type=intent.intent_type.replace('_query', ''),
+            max_contexts=3
+        )
+        
+        if relevant_contexts:
+            reasoning_trace.append(f"Retrieved {len(relevant_contexts)} relevant contexts from knowledge base")
+            for ctx in relevant_contexts:
+                data_sources.append(ctx['source'])
+        
+        # Step 3: Determine which agents to coordinate with
         required_agents = self._determine_required_agents(intent)
         reasoning_trace.append(f"Coordinating with agents: {', '.join(required_agents)}")
         
-        # Step 3: Generate response based on intent type
+        # Step 4: Generate response based on intent type
         if intent.intent_type == 'pricing_query':
             response_text = self._handle_pricing_query(intent, reasoning_trace, data_sources, recommendations)
         elif intent.intent_type == 'inventory_query':
@@ -275,8 +289,17 @@ class BusinessCopilotAgent(BaseAgent):
         else:
             response_text = self._handle_general_query(intent, reasoning_trace, data_sources, recommendations)
         
+        # Step 5: Augment response with retrieved context
+        if relevant_contexts:
+            response_text = self._augment_response_with_context(response_text, relevant_contexts)
+        
         # Calculate overall confidence
         confidence = intent.confidence * 0.8  # Adjust based on intent confidence
+        
+        # Boost confidence if we have relevant context
+        if relevant_contexts:
+            avg_relevance = sum(ctx['relevance_score'] for ctx in relevant_contexts) / len(relevant_contexts)
+            confidence = min(confidence * (1 + avg_relevance * 0.2), 1.0)
         
         # Generate action-oriented recommendations using explainability service
         action_recommendations = self.explainability_service.generate_action_recommendations(
@@ -437,6 +460,37 @@ class BusinessCopilotAgent(BaseAgent):
         data_sources.append("AI Council")
         
         return "I'm your Business Copilot, here to help you make data-driven decisions. I can assist with pricing, inventory, forecasting, market intelligence, and risk management. What would you like to know?"
+    
+    def _augment_response_with_context(
+        self,
+        response_text: str,
+        contexts: List[Dict[str, Any]]
+    ) -> str:
+        """
+        Augment response with relevant context from knowledge base
+        
+        Args:
+            response_text: Original response text
+            contexts: List of relevant contexts
+            
+        Returns:
+            Augmented response text
+        """
+        if not contexts:
+            return response_text
+        
+        # Add context information
+        context_snippets = []
+        for ctx in contexts[:2]:  # Use top 2 contexts
+            if ctx['relevance_score'] > 5.0:  # Only use highly relevant contexts
+                snippet = ctx['content'][:200]  # First 200 chars
+                context_snippets.append(snippet)
+        
+        if context_snippets:
+            augmented = response_text + "\n\nBased on historical data: " + " ".join(context_snippets)
+            return augmented
+        
+        return response_text
     
     def _get_or_create_context(
         self,

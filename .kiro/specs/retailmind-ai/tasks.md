@@ -661,6 +661,7 @@
 
 
 
+
   - [x] 20.1 Create SageMaker training pipeline
 
     - Set up SageMaker training jobs for demand forecasting
@@ -684,20 +685,29 @@
     - Test inference endpoints
     - _Requirements: 9.2_
 
-- [ ] 21. Implement semantic search with Amazon OpenSearch
-  - [ ] 21.1 Set up OpenSearch cluster
+- [x] 21. Implement semantic search with Amazon OpenSearch
+
+
+
+  - [x] 21.1 Set up OpenSearch cluster
+
+
     - Configure OpenSearch domain
     - Create index mappings for business intelligence
     - Implement document ingestion pipeline
     - _Requirements: 9.2_
 
-  - [ ] 21.2 Implement semantic search functionality
+
+  - [x] 21.2 Implement semantic search functionality
+
     - Create vector embeddings for documents
     - Implement similarity search
     - Integrate with Business Copilot for knowledge retrieval
     - _Requirements: 4.4, 9.2_
 
-  - [ ] 21.3 Write unit tests for semantic search
+
+  - [x] 21.3 Write unit tests for semantic search
+
     - Test document indexing
     - Test search query execution
     - Test result ranking
