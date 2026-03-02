@@ -97,7 +97,7 @@ def market_intelligence_input_strategy(draw, min_pricing=0, max_pricing=50, min_
 
 # Property-based tests
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=1, max_pricing=50, min_demand=1, max_demand=50))
 def test_agent_tracks_all_regions_and_categories(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -136,7 +136,7 @@ def test_agent_tracks_all_regions_and_categories(mock_aws_dependencies, input_da
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=5, max_pricing=50, min_demand=0, max_demand=50))
 def test_competitor_analysis_tracks_all_competitors(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -171,7 +171,7 @@ def test_competitor_analysis_tracks_all_competitors(mock_aws_dependencies, input
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=0, max_pricing=50, min_demand=1, max_demand=50))
 def test_demand_heatmap_covers_all_regions_and_categories(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -206,7 +206,7 @@ def test_demand_heatmap_covers_all_regions_and_categories(mock_aws_dependencies,
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=0, max_pricing=50, min_demand=5, max_demand=50))
 def test_seasonal_trends_detected_with_advance_notice(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -243,7 +243,7 @@ def test_seasonal_trends_detected_with_advance_notice(mock_aws_dependencies, inp
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=1, max_pricing=50, min_demand=1, max_demand=50))
 def test_decision_confidence_increases_with_data_volume(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -271,7 +271,7 @@ def test_decision_confidence_increases_with_data_volume(mock_aws_dependencies, i
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=1, max_pricing=50, min_demand=1, max_demand=50))
 def test_decision_includes_all_required_metadata(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -309,7 +309,7 @@ def test_decision_includes_all_required_metadata(mock_aws_dependencies, input_da
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(
     pricing_data=st.lists(pricing_data_strategy(), min_size=5, max_size=20),
     category=st.sampled_from(['electronics', 'clothing', 'food', 'furniture', 'toys'])
@@ -351,7 +351,7 @@ def test_pricing_trends_calculate_correct_statistics(mock_aws_dependencies, pric
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(input_data=market_intelligence_input_strategy(min_pricing=0, max_pricing=0, min_demand=0, max_demand=0))
 def test_agent_handles_empty_data_gracefully(mock_aws_dependencies, input_data: MarketIntelligenceInput):
     """
@@ -377,7 +377,7 @@ def test_agent_handles_empty_data_gracefully(mock_aws_dependencies, input_data: 
 
 
 @pytest.mark.property
-@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow], deadline=None)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.large_base_example, HealthCheck.too_slow, HealthCheck.function_scoped_fixture], deadline=None)
 @given(
     demand_data=st.lists(demand_data_strategy(), min_size=5, max_size=30),
     region=st.sampled_from(['north', 'south', 'east', 'west', 'central']),

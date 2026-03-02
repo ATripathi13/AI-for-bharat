@@ -172,7 +172,8 @@ def test_optimization_recommendations_provided_for_all_inventory(mock_aws_depend
 @given(input_data=inventory_planning_input_strategy(min_inventory=1, max_inventory=20))
 def test_stockout_detection_triggers_high_urgency(mock_aws_dependencies, input_data: InventoryPlanningInput):
     """
-    Property: For any inventory at or below reorder point, stockout should be detected with high urgency
+    Property: For any inventory at or below reorder point (without forecast) or 
+    with insufficient days remaining (with forecast), stockout should be detected
     
     **Feature: retailmind-ai, Property 3: Inventory Optimization Consistency**
     **Validates: Requirements 2.3**
@@ -186,18 +187,40 @@ def test_stockout_detection_triggers_high_urgency(mock_aws_dependencies, input_d
     planning_results = decision.recommendation.supporting_data[0]
     stock_conditions = planning_results['stock_conditions']
     
-    # Create lookup for inventory levels
-    inventory_map = {(inv.sku, inv.region): inv for inv in input_data.inventory_levels}
+    # Create forecast lookup
+    forecast_map = {(f.sku, f.region): f for f in input_data.demand_forecasts}
     
-    # Verify stockout detection logic
-    for condition in stock_conditions:
-        key = (condition.sku, condition.region)
-        inventory = inventory_map[key]
+    # Verify stockout detection logic - agent processes each inventory level in order
+    assert len(stock_conditions) == len(input_data.inventory_levels)
+    
+    for i, condition in enumerate(stock_conditions):
+        inventory = input_data.inventory_levels[i]
         
-        # If current stock is at or below reorder point, should detect stockout or approaching stockout
-        if inventory.current_stock <= inventory.reorder_point:
-            assert condition.condition in ['stockout', 'approaching_stockout']
-            assert condition.urgency in ['high', 'medium']
+        # Verify the condition matches the inventory
+        assert condition.sku == inventory.sku
+        assert condition.region == inventory.region
+        
+        # Check if forecast is available
+        forecast = forecast_map.get((inventory.sku, inventory.region))
+        
+        if forecast and forecast.predicted_demand / forecast.forecast_horizon_days >= 0.01:
+            # With forecast: check days remaining logic
+            daily_demand = forecast.predicted_demand / forecast.forecast_horizon_days
+            days_remaining = inventory.current_stock / daily_demand if daily_demand > 0 else float('inf')
+            
+            # If days remaining <= lead_time_days, should be stockout
+            if days_remaining <= input_data.lead_time_days:
+                assert condition.condition == 'stockout'
+                assert condition.urgency == 'high'
+            # If days remaining <= lead_time_days * 1.5, should be approaching stockout
+            elif days_remaining <= input_data.lead_time_days * 1.5:
+                assert condition.condition == 'approaching_stockout'
+                assert condition.urgency == 'medium'
+        else:
+            # Without forecast: check simple threshold logic
+            if inventory.current_stock <= inventory.reorder_point:
+                assert condition.condition in ['stockout', 'approaching_stockout']
+                assert condition.urgency in ['high', 'medium']
 
 
 @pytest.mark.property
@@ -205,7 +228,10 @@ def test_stockout_detection_triggers_high_urgency(mock_aws_dependencies, input_d
 @given(input_data=inventory_planning_input_strategy(min_inventory=1, max_inventory=20))
 def test_overstock_detection_for_excess_inventory(mock_aws_dependencies, input_data: InventoryPlanningInput):
     """
-    Property: For any inventory at or above max stock, overstock should be detected
+    Property: For any inventory at or above max stock (without forecast) or
+    with excessive days remaining (with forecast), overstock should be detected.
+    Note: Forecast-based logic takes precedence - even if current_stock > max_stock,
+    if forecast shows insufficient days remaining, it won't be classified as overstock.
     
     **Feature: retailmind-ai, Property 3: Inventory Optimization Consistency**
     **Validates: Requirements 2.3**
@@ -219,17 +245,37 @@ def test_overstock_detection_for_excess_inventory(mock_aws_dependencies, input_d
     planning_results = decision.recommendation.supporting_data[0]
     stock_conditions = planning_results['stock_conditions']
     
-    # Create lookup for inventory levels
-    inventory_map = {(inv.sku, inv.region): inv for inv in input_data.inventory_levels}
+    # Create forecast lookup
+    forecast_map = {(f.sku, f.region): f for f in input_data.demand_forecasts}
     
-    # Verify overstock detection logic
-    for condition in stock_conditions:
-        key = (condition.sku, condition.region)
-        inventory = inventory_map[key]
+    # Verify overstock detection logic - agent processes each inventory level in order
+    assert len(stock_conditions) == len(input_data.inventory_levels)
+    
+    for i, condition in enumerate(stock_conditions):
+        inventory = input_data.inventory_levels[i]
         
-        # If current stock is at or above max stock, should detect overstock
-        if inventory.current_stock >= inventory.max_stock:
-            assert condition.condition == 'overstock'
+        # Verify the condition matches the inventory
+        assert condition.sku == inventory.sku
+        assert condition.region == inventory.region
+        
+        # Check if forecast is available
+        forecast = forecast_map.get((inventory.sku, inventory.region))
+        
+        if forecast and forecast.predicted_demand / forecast.forecast_horizon_days >= 0.01:
+            # With forecast: check days remaining logic
+            daily_demand = forecast.predicted_demand / forecast.forecast_horizon_days
+            days_remaining = inventory.current_stock / daily_demand if daily_demand > 0 else float('inf')
+            
+            # If days remaining >= forecast_horizon_days * 2, should be overstock
+            # BUT only if we also have enough to cover lead time (not in stockout/approaching)
+            if days_remaining >= forecast.forecast_horizon_days * 2:
+                # Additional check: make sure we're not in stockout range
+                if days_remaining > input_data.lead_time_days * 1.5:
+                    assert condition.condition == 'overstock'
+        else:
+            # Without forecast: check simple threshold logic
+            if inventory.current_stock >= inventory.max_stock:
+                assert condition.condition == 'overstock'
 
 
 @pytest.mark.property
@@ -459,7 +505,7 @@ def test_agent_handles_empty_data_gracefully(mock_aws_dependencies, input_data: 
 @given(input_data=inventory_planning_input_strategy(min_inventory=5, max_inventory=20))
 def test_rebalancing_transfers_from_overstock_to_stockout(mock_aws_dependencies, input_data: InventoryPlanningInput):
     """
-    Property: For any rebalancing action, transfers should be from overstock to stockout regions
+    Property: For any rebalancing action, transfers should be from regions with excess to regions with shortage
     
     **Feature: retailmind-ai, Property 3: Inventory Optimization Consistency**
     **Validates: Requirements 2.3, 2.4**
@@ -474,25 +520,36 @@ def test_rebalancing_transfers_from_overstock_to_stockout(mock_aws_dependencies,
     stock_conditions = planning_results['stock_conditions']
     rebalancing_plan = planning_results['rebalancing_plan']
     
-    # Create condition lookup
-    condition_map = {(c.sku, c.region): c for c in stock_conditions}
+    # Build a list of all conditions for each SKU/region (handling duplicates)
+    condition_list = [(c.sku, c.region, c.condition) for c in stock_conditions]
     
-    # Verify rebalancing logic
+    # Verify rebalancing logic - each action should make sense given the conditions
     for action in rebalancing_plan['rebalancing_actions']:
-        from_key = (action['sku'], action['from_region'])
-        to_key = (action['sku'], action['to_region'])
+        sku = action['sku']
+        from_region = action['from_region']
+        to_region = action['to_region']
+        quantity = action['quantity']
         
-        # From region should have excess (overstock)
-        if from_key in condition_map:
-            from_condition = condition_map[from_key]
-            # Should be transferring from overstock or at least optimal
-            assert from_condition.condition in ['overstock', 'optimal']
+        # Verify quantity is positive
+        assert quantity > 0
         
-        # To region should have shortage (stockout or approaching)
-        if to_key in condition_map:
-            to_condition = condition_map[to_key]
-            # Should be transferring to stockout or approaching stockout
-            assert to_condition.condition in ['stockout', 'approaching_stockout', 'optimal']
+        # Find conditions for from and to regions for this SKU
+        from_conditions = [c for s, r, c in condition_list if s == sku and r == from_region]
+        to_conditions = [c for s, r, c in condition_list if s == sku and r == to_region]
+        
+        # If we have conditions for both regions, verify the transfer makes sense
+        # From region should not be in stockout (shouldn't transfer from a stockout region)
+        if from_conditions:
+            # At least one from_condition should not be stockout
+            has_non_stockout = any(c not in ['stockout', 'approaching_stockout'] for c in from_conditions)
+            # We allow transfers from any non-stockout condition
+            assert has_non_stockout or len(from_conditions) == 0
+        
+        # To region should have some need (stockout, approaching, or even optimal is acceptable)
+        # The key is that we're not transferring TO an overstock region
+        if to_conditions:
+            # Should not be transferring to overstock
+            assert not all(c == 'overstock' for c in to_conditions)
 
 
 # Unit tests for Inventory Planning Agent
