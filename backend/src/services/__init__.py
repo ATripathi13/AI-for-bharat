@@ -26,6 +26,23 @@ from .explainability import (
     ExplanationTrace,
     ReasoningStep
 )
+from .intelligence_loop import (
+    IntelligenceLoopOrchestrator,
+    LoopPhase,
+    LoopStatus,
+    LoopExecution
+)
+from .event_bridge_handler import (
+    EventBridgeHandler,
+    EventType,
+    lambda_handler
+)
+from .event_rules import (
+    EventPattern,
+    EventRule,
+    IntelligenceLoopEventRules,
+    LoopMonitoring
+)
 
 __all__ = [
     'AICouncil',
@@ -48,5 +65,16 @@ __all__ = [
     'AlertStatus',
     'ExplainabilityService',
     'ExplanationTrace',
-    'ReasoningStep'
+    'ReasoningStep',
+    'IntelligenceLoopOrchestrator',
+    'LoopPhase',
+    'LoopStatus',
+    'LoopExecution',
+    'EventBridgeHandler',
+    'EventType',
+    'lambda_handler',
+    'EventPattern',
+    'EventRule',
+    'IntelligenceLoopEventRules',
+    'LoopMonitoring'
 ]
