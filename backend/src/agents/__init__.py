@@ -12,6 +12,7 @@ from .registry import AgentRegistry, RegistryError
 from .market_intelligence_agent import MarketIntelligenceAgent
 from .demand_forecast_agent import DemandForecastAgent
 from .risk_compliance_agent import RiskComplianceAgent
+from .workflow_regeneration_agent import WorkflowRegenerationAgent
 
 __all__ = [
     'BaseAgent',
@@ -26,5 +27,6 @@ __all__ = [
     'RegistryError',
     'MarketIntelligenceAgent',
     'DemandForecastAgent',
-    'RiskComplianceAgent'
+    'RiskComplianceAgent',
+    'WorkflowRegenerationAgent'
 ]

@@ -21,3 +21,4 @@ psycopg2-binary==2.9.9
 
 # Utilities
 python-dotenv==1.0.1
+jsonschema==4.21.1
