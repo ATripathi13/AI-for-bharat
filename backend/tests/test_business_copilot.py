@@ -6,6 +6,7 @@ import pytest
 from hypothesis import given, strategies as st, settings
 from datetime import datetime
 import json
+from unittest.mock import Mock, patch
 
 from src.agents.business_copilot_agent import (
     BusinessCopilotAgent,
@@ -103,51 +104,75 @@ def test_copilot_response_quality_property(input_data):
     4. Response includes actionable recommendations (action-oriented)
     5. Response has confidence level
     """
-    agent = BusinessCopilotAgent()
-    
-    # Process the query
-    start_time = datetime.utcnow()
-    decision = agent.process(input_data)
-    end_time = datetime.utcnow()
-    
-    # Verify response time (within 10 seconds)
-    response_time = (end_time - start_time).total_seconds()
-    assert response_time < 10.0, f"Response took {response_time}s, should be < 10s"
-    
-    # Parse the response
-    response_data = json.loads(decision.recommendation.action)
-    
-    # Property 1: Response is not empty
-    assert response_data['responseText'], "Response text should not be empty"
-    assert len(response_data['responseText']) > 0, "Response should have content"
-    
-    # Property 2: Response includes reasoning trace (explainability)
-    assert 'reasoningTrace' in response_data, "Response should include reasoning trace"
-    assert isinstance(response_data['reasoningTrace'], list), "Reasoning trace should be a list"
-    assert len(response_data['reasoningTrace']) > 0, "Reasoning trace should not be empty"
-    
-    # Property 3: Response includes data sources (data-backed)
-    assert 'dataSources' in response_data, "Response should include data sources"
-    assert isinstance(response_data['dataSources'], list), "Data sources should be a list"
-    # Note: Some general queries might not have specific data sources
-    
-    # Property 4: Response includes recommendations (action-oriented)
-    assert 'recommendations' in response_data, "Response should include recommendations"
-    assert isinstance(response_data['recommendations'], list), "Recommendations should be a list"
-    
-    # For non-general queries, should have at least one recommendation
-    query_lower = input_data['query'].lower()
-    is_general = any(word in query_lower for word in ['help', 'what can you', 'how does', 'what is the', 'explain'])
-    if not is_general:
-        assert len(response_data['recommendations']) > 0, "Non-general queries should have recommendations"
+    # Mock the external dependencies
+    with patch('src.agents.business_copilot_agent.SemanticSearchService') as mock_search_class, \
+         patch('src.agents.business_copilot_agent.BedrockService') as mock_bedrock_class:
         
-        # Verify recommendation structure
-        for rec in response_data['recommendations']:
-            assert 'action' in rec, "Recommendation should have action"
-            assert 'description' in rec, "Recommendation should have description"
-            assert 'priority' in rec, "Recommendation should have priority"
-    
-    # Property 5: Response has confidence level
+        # Setup mock semantic search
+        mock_search = Mock()
+        mock_search.retrieve_relevant_context.return_value = [
+            {
+                'content': 'Sample context data',
+                'document_type': 'pricing',
+                'relevance_score': 0.85
+            }
+        ]
+        mock_search_class.return_value = mock_search
+        
+        # Setup mock Bedrock service
+        mock_bedrock = Mock()
+        mock_bedrock.generate_text.return_value = json.dumps({
+            'response': 'Based on the analysis, here is my recommendation.',
+            'reasoning': ['Step 1: Analyzed query', 'Step 2: Retrieved context', 'Step 3: Generated response'],
+            'confidence': 0.85
+        })
+        mock_bedrock_class.return_value = mock_bedrock
+        
+        agent = BusinessCopilotAgent()
+        
+        # Process the query
+        start_time = datetime.utcnow()
+        decision = agent.process(input_data)
+        end_time = datetime.utcnow()
+        
+        # Verify response time (within 10 seconds)
+        response_time = (end_time - start_time).total_seconds()
+        assert response_time < 10.0, f"Response took {response_time}s, should be < 10s"
+        
+        # Parse the response
+        response_data = json.loads(decision.recommendation.action)
+        
+        # Property 1: Response is not empty
+        assert response_data['responseText'], "Response text should not be empty"
+        assert len(response_data['responseText']) > 0, "Response should have content"
+        
+        # Property 2: Response includes reasoning trace (explainability)
+        assert 'reasoningTrace' in response_data, "Response should include reasoning trace"
+        assert isinstance(response_data['reasoningTrace'], list), "Reasoning trace should be a list"
+        assert len(response_data['reasoningTrace']) > 0, "Reasoning trace should not be empty"
+        
+        # Property 3: Response includes data sources (data-backed)
+        assert 'dataSources' in response_data, "Response should include data sources"
+        assert isinstance(response_data['dataSources'], list), "Data sources should be a list"
+        # Note: Some general queries might not have specific data sources
+        
+        # Property 4: Response includes recommendations (action-oriented)
+        assert 'recommendations' in response_data, "Response should include recommendations"
+        assert isinstance(response_data['recommendations'], list), "Recommendations should be a list"
+        
+        # For non-general queries, should have at least one recommendation
+        query_lower = input_data['query'].lower()
+        is_general = any(word in query_lower for word in ['help', 'what can you', 'how does', 'what is the', 'explain'])
+        if not is_general:
+            assert len(response_data['recommendations']) > 0, "Non-general queries should have recommendations"
+            
+            # Verify recommendation structure
+            for rec in response_data['recommendations']:
+                assert 'action' in rec, "Recommendation should have action"
+                assert 'description' in rec, "Recommendation should have description"
+                assert 'priority' in rec, "Recommendation should have priority"
+        
+        # Property 5: Response has confidence level
     assert 'confidence' in response_data, "Response should include confidence"
     assert isinstance(response_data['confidence'], (int, float)), "Confidence should be numeric"
     assert 0.0 <= response_data['confidence'] <= 1.0, "Confidence should be between 0 and 1"

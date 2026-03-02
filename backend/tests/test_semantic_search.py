@@ -3,25 +3,23 @@ Unit Tests for Semantic Search
 Tests document indexing, search query execution, and result ranking
 """
 import pytest
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import Mock
 from datetime import datetime
 
-from backend.src.services.opensearch_service import (
+from src.services.opensearch_service import (
     OpenSearchService,
     DocumentMetadata,
     SearchResult
 )
-from backend.src.services.embedding_service import EmbeddingService
-from backend.src.services.semantic_search import (
+from src.services.embedding_service import EmbeddingService
+from src.services.semantic_search import (
     SemanticSearchService,
-    SemanticSearchQuery,
-    KnowledgeRetrievalResult
+    SemanticSearchQuery
 )
-from backend.src.services.document_ingestion import (
-    DocumentIngestionPipeline,
-    IngestionResult
+from src.services.document_ingestion import (
+    DocumentIngestionPipeline
 )
-from backend.src.models.business_intelligence import BusinessIntelligence
+from src.models.business_intelligence import BusinessIntelligence
 
 
 class TestDocumentIndexing:

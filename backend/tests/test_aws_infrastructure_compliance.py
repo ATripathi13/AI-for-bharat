@@ -17,7 +17,7 @@ from typing import Dict, Any, List
 import json
 
 from src.repositories.s3_repository import S3Repository
-from src.repositories.dynamodb_repository import DynamoDBRepository
+from src.repositories.dynamodb_repository import AgentDecisionRepository, WorkflowInstanceRepository, BusinessIntelligenceRepository
 from src.repositories.redshift_repository import RedshiftRepository
 from src.api.gateway_config import APIGatewayConfig, create_default_gateway_config
 from src.workflows.execution_engine import WorkflowExecutionEngine
