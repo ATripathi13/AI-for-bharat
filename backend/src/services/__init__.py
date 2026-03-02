@@ -14,6 +14,13 @@ from .audit import (
     AuditEventType,
     AuditError
 )
+from .compliance_alert import (
+    ComplianceAlertSystem,
+    ComplianceAlert,
+    RemediationEngine,
+    AlertSeverity,
+    AlertStatus
+)
 
 __all__ = [
     'AICouncil',
@@ -28,5 +35,10 @@ __all__ = [
     'AuditService',
     'AuditEntry',
     'AuditEventType',
-    'AuditError'
+    'AuditError',
+    'ComplianceAlertSystem',
+    'ComplianceAlert',
+    'RemediationEngine',
+    'AlertSeverity',
+    'AlertStatus'
 ]

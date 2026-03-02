@@ -11,6 +11,7 @@ from .communication import (
 from .registry import AgentRegistry, RegistryError
 from .market_intelligence_agent import MarketIntelligenceAgent
 from .demand_forecast_agent import DemandForecastAgent
+from .risk_compliance_agent import RiskComplianceAgent
 
 __all__ = [
     'BaseAgent',
@@ -24,5 +25,6 @@ __all__ = [
     'AgentRegistry',
     'RegistryError',
     'MarketIntelligenceAgent',
-    'DemandForecastAgent'
+    'DemandForecastAgent',
+    'RiskComplianceAgent'
 ]
