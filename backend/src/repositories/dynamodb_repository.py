@@ -311,3 +311,134 @@ class BusinessIntelligenceRepository(BaseRepository[BusinessIntelligence]):
             return [BusinessIntelligence.from_dict(item) for item in response.get('Items', [])]
         except ClientError as e:
             raise Exception(f"Failed to get high-confidence business intelligence: {e.response['Error']['Message']}")
+
+
+class ConversationRepository:
+    """Repository for Conversation entities in DynamoDB"""
+    
+    def __init__(self, table_name: str = "Conversations"):
+        self.table = aws_clients.get_dynamodb_table(table_name)
+        self.service_name = "DynamoDB"
+    
+    def create(self, conversation: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new conversation"""
+        try:
+            self.table.put_item(Item=conversation)
+            return conversation
+        except ClientError as e:
+            raise Exception(f"Failed to create conversation: {e.response['Error']['Message']}")
+    
+    def get(self, conversation_id: str) -> Optional[Dict[str, Any]]:
+        """Get a conversation by ID"""
+        try:
+            response = self.table.get_item(
+                Key={'conversationId': conversation_id}
+            )
+            return response.get('Item')
+        except ClientError as e:
+            raise Exception(f"Failed to get conversation: {e.response['Error']['Message']}")
+    
+    def update(self, conversation_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a conversation"""
+        try:
+            update_expression = "SET " + ", ".join([f"#{k} = :{k}" for k in updates.keys()])
+            expression_attribute_names = {f"#{k}": k for k in updates.keys()}
+            expression_attribute_values = {f":{k}": v for k, v in updates.items()}
+            
+            response = self.table.update_item(
+                Key={'conversationId': conversation_id},
+                UpdateExpression=update_expression,
+                ExpressionAttributeNames=expression_attribute_names,
+                ExpressionAttributeValues=expression_attribute_values,
+                ReturnValues="ALL_NEW"
+            )
+            return response.get('Attributes', {})
+        except ClientError as e:
+            raise Exception(f"Failed to update conversation: {e.response['Error']['Message']}")
+    
+    def query_with_filter(
+        self,
+        filter_expression: Optional[str] = None,
+        expression_values: Optional[Dict[str, Any]] = None,
+        expression_names: Optional[Dict[str, str]] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
+        """Query conversations with filters"""
+        try:
+            scan_kwargs = {}
+            if filter_expression:
+                # Convert string filter expression to boto3 condition
+                # This is a simplified implementation
+                scan_kwargs['FilterExpression'] = filter_expression
+            if expression_values:
+                scan_kwargs['ExpressionAttributeValues'] = expression_values
+            if expression_names:
+                scan_kwargs['ExpressionAttributeNames'] = expression_names
+            if limit:
+                scan_kwargs['Limit'] = limit
+            
+            response = self.table.scan(**scan_kwargs)
+            items = response.get('Items', [])
+            
+            # Handle offset (simplified - in production use pagination tokens)
+            if offset:
+                items = items[offset:]
+            
+            return items
+        except ClientError as e:
+            raise Exception(f"Failed to query conversations: {e.response['Error']['Message']}")
+
+
+class MessageRepository:
+    """Repository for Message entities in DynamoDB"""
+    
+    def __init__(self, table_name: str = "Messages"):
+        self.table = aws_clients.get_dynamodb_table(table_name)
+        self.service_name = "DynamoDB"
+    
+    def create(self, message: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new message"""
+        try:
+            self.table.put_item(Item=message)
+            return message
+        except ClientError as e:
+            raise Exception(f"Failed to create message: {e.response['Error']['Message']}")
+    
+    def get(self, message_id: str) -> Optional[Dict[str, Any]]:
+        """Get a message by ID"""
+        try:
+            response = self.table.get_item(
+                Key={'messageId': message_id}
+            )
+            return response.get('Item')
+        except ClientError as e:
+            raise Exception(f"Failed to get message: {e.response['Error']['Message']}")
+    
+    def query_with_filter(
+        self,
+        filter_expression: Optional[str] = None,
+        expression_values: Optional[Dict[str, Any]] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
+        """Query messages with filters"""
+        try:
+            scan_kwargs = {}
+            if filter_expression:
+                scan_kwargs['FilterExpression'] = filter_expression
+            if expression_values:
+                scan_kwargs['ExpressionAttributeValues'] = expression_values
+            if limit:
+                scan_kwargs['Limit'] = limit
+            
+            response = self.table.scan(**scan_kwargs)
+            items = response.get('Items', [])
+            
+            # Handle offset (simplified)
+            if offset:
+                items = items[offset:]
+            
+            return items
+        except ClientError as e:
+            raise Exception(f"Failed to query messages: {e.response['Error']['Message']}")
