@@ -61,6 +61,25 @@ from .audit_trail_system import (
     ComplianceReportType,
     get_audit_trail_system
 )
+from .sagemaker_training import (
+    SageMakerTrainingPipeline,
+    TrainingJobConfig,
+    ModelVersion,
+    RetrainingTrigger,
+    TrainingStatus,
+    ModelType,
+    create_demand_forecast_training_config
+)
+from .sagemaker_deployment import (
+    SageMakerDeploymentService,
+    ModelEndpointConfig,
+    InferenceRequest,
+    InferenceResponse,
+    DriftMetrics,
+    ABTestConfig,
+    EndpointStatus,
+    DriftStatus
+)
 
 __all__ = [
     'AICouncil',
@@ -108,5 +127,20 @@ __all__ = [
     'WorkflowModificationLogger',
     'ComplianceReportingService',
     'ComplianceReportType',
-    'get_audit_trail_system'
+    'get_audit_trail_system',
+    'SageMakerTrainingPipeline',
+    'TrainingJobConfig',
+    'ModelVersion',
+    'RetrainingTrigger',
+    'TrainingStatus',
+    'ModelType',
+    'create_demand_forecast_training_config',
+    'SageMakerDeploymentService',
+    'ModelEndpointConfig',
+    'InferenceRequest',
+    'InferenceResponse',
+    'DriftMetrics',
+    'ABTestConfig',
+    'EndpointStatus',
+    'DriftStatus'
 ]
