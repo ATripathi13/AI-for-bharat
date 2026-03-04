@@ -96,6 +96,3 @@ cd frontend
 npm test
 ```
 
-## License
-
-Proprietary - All rights reserved
