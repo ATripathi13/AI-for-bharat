@@ -456,20 +456,44 @@ Save these outputs - you'll need them for configuration.
 ## 10. Application Deployment
 
 ### Step 10.1: Update Frontend Configuration
-```bash
-# Navigate to frontend directory
-cd ..\..\frontend
 
-# Edit .env file with deployment outputs
-notepad .env
+After deploying the API stack, you need to update the frontend environment variables with the actual values from your deployment.
+
+#### Option 1: Automatic Update (Recommended)
+
+Use the provided script to automatically retrieve and update the values:
+
+```powershell
+# Windows PowerShell
+.\scripts\update-frontend-env.ps1
+
+# Linux/Mac
+chmod +x scripts/update-frontend-env.sh
+./scripts/update-frontend-env.sh
 ```
 
-Update with values from `deployment-outputs.txt`:
+#### Option 2: Manual Update
+
+Get the values from CloudFormation outputs:
+
+```powershell
+# Get User Pool ID
+aws cloudformation describe-stacks --stack-name RetailMindApiStack --query "Stacks[0].Outputs[?OutputKey=='UserPoolId'].OutputValue" --output text
+
+# Get User Pool Client ID
+aws cloudformation describe-stacks --stack-name RetailMindApiStack --query "Stacks[0].Outputs[?OutputKey=='UserPoolClientId'].OutputValue" --output text
+
+# Get API Endpoint
+aws cloudformation describe-stacks --stack-name RetailMindApiStack --query "Stacks[0].Outputs[?OutputKey=='ApiEndpoint'].OutputValue" --output text
+```
+
+Then manually edit `frontend/.env`:
+
 ```bash
 VITE_AWS_REGION=us-east-1
-VITE_USER_POOL_ID=<from RetailMindApiStack.UserPoolId>
-VITE_USER_POOL_CLIENT_ID=<from RetailMindApiStack.UserPoolClientId>
-VITE_API_GATEWAY_URL=<from RetailMindApiStack.ApiEndpoint>
+VITE_USER_POOL_ID=<paste-user-pool-id>
+VITE_USER_POOL_CLIENT_ID=<paste-client-id>
+VITE_API_GATEWAY_URL=<paste-api-endpoint>
 ```
 
 ### Step 10.2: Deploy Backend Lambda Functions
