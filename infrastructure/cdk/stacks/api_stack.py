@@ -61,9 +61,90 @@ class ApiStack(Stack):
             )
         )
 
-        # Cognito Authorizer
+        # Cognito Authorizer (attached to the REST API)
         self.authorizer = apigw.CognitoUserPoolsAuthorizer(
             self,
             "ApiAuthorizer",
             cognito_user_pools=[self.user_pool]
+        )
+        
+        # Create a sample health check endpoint
+        health_resource = self.api.root.add_resource("health")
+        health_resource.add_method(
+            "GET",
+            apigw.MockIntegration(
+                integration_responses=[
+                    apigw.IntegrationResponse(
+                        status_code="200",
+                        response_templates={
+                            "application/json": '{"status": "healthy", "timestamp": "$context.requestTime"}'
+                        }
+                    )
+                ],
+                request_templates={
+                    "application/json": '{"statusCode": 200}'
+                }
+            ),
+            method_responses=[
+                apigw.MethodResponse(status_code="200")
+            ]
+        )
+        
+        # Create agents resource (protected by Cognito)
+        agents_resource = self.api.root.add_resource("agents")
+        agents_resource.add_method(
+            "GET",
+            apigw.MockIntegration(
+                integration_responses=[
+                    apigw.IntegrationResponse(
+                        status_code="200",
+                        response_templates={
+                            "application/json": '{"message": "Agents endpoint - requires authentication"}'
+                        }
+                    )
+                ],
+                request_templates={
+                    "application/json": '{"statusCode": 200}'
+                }
+            ),
+            method_responses=[
+                apigw.MethodResponse(status_code="200")
+            ],
+            authorizer=self.authorizer,
+            authorization_type=apigw.AuthorizationType.COGNITO
+        )
+
+        # Stack Outputs
+        from aws_cdk import CfnOutput
+        
+        CfnOutput(
+            self,
+            "ApiEndpoint",
+            value=self.api.url,
+            description="API Gateway endpoint URL",
+            export_name="RetailMindApiEndpoint"
+        )
+        
+        CfnOutput(
+            self,
+            "UserPoolId",
+            value=self.user_pool.user_pool_id,
+            description="Cognito User Pool ID",
+            export_name="RetailMindUserPoolId"
+        )
+        
+        CfnOutput(
+            self,
+            "UserPoolClientId",
+            value=self.user_pool_client.user_pool_client_id,
+            description="Cognito User Pool Client ID",
+            export_name="RetailMindUserPoolClientId"
+        )
+        
+        CfnOutput(
+            self,
+            "ApiId",
+            value=self.api.rest_api_id,
+            description="API Gateway REST API ID",
+            export_name="RetailMindApiId"
         )

@@ -17,11 +17,14 @@ class DataStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # S3 Buckets
+        # Get account ID from stack
+        account_id = Stack.of(self).account
+        
+        # S3 Buckets (with account ID for global uniqueness)
         self.raw_data_bucket = s3.Bucket(
             self,
             "RawDataBucket",
-            bucket_name="retailmind-raw-data",
+            bucket_name=f"retailmind-raw-data-{account_id}",
             versioned=True,
             encryption=s3.BucketEncryption.S3_MANAGED,
             removal_policy=RemovalPolicy.RETAIN,
@@ -40,7 +43,7 @@ class DataStack(Stack):
         self.ml_artifacts_bucket = s3.Bucket(
             self,
             "MLArtifactsBucket",
-            bucket_name="retailmind-ml-artifacts",
+            bucket_name=f"retailmind-ml-artifacts-{account_id}",
             versioned=True,
             encryption=s3.BucketEncryption.S3_MANAGED,
             removal_policy=RemovalPolicy.RETAIN
@@ -113,4 +116,39 @@ class DataStack(Stack):
             billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
             point_in_time_recovery=True,
             removal_policy=RemovalPolicy.RETAIN
+        )
+
+        # Stack Outputs
+        from aws_cdk import CfnOutput
+        
+        CfnOutput(
+            self,
+            "RawDataBucketName",
+            value=self.raw_data_bucket.bucket_name,
+            description="S3 bucket for raw data",
+            export_name="RetailMindRawDataBucket"
+        )
+        
+        CfnOutput(
+            self,
+            "MLArtifactsBucketName",
+            value=self.ml_artifacts_bucket.bucket_name,
+            description="S3 bucket for ML artifacts",
+            export_name="RetailMindMLArtifactsBucket"
+        )
+        
+        CfnOutput(
+            self,
+            "TransactionsTableName",
+            value=self.transactions_table.table_name,
+            description="DynamoDB transactions table",
+            export_name="RetailMindTransactionsTable"
+        )
+        
+        CfnOutput(
+            self,
+            "AgentStatesTableName",
+            value=self.agent_states_table.table_name,
+            description="DynamoDB agent states table",
+            export_name="RetailMindAgentStatesTable"
         )

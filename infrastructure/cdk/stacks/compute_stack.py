@@ -64,3 +64,22 @@ class ComputeStack(Stack):
 
         # Grant Step Functions access to invoke Lambda
         self.lambda_role.grant_pass_role(self.sfn_role)
+
+        # Stack Outputs
+        from aws_cdk import CfnOutput
+        
+        CfnOutput(
+            self,
+            "EventBusName",
+            value=self.event_bus.event_bus_name,
+            description="EventBridge event bus for agent communication",
+            export_name="RetailMindEventBus"
+        )
+        
+        CfnOutput(
+            self,
+            "LambdaRoleArn",
+            value=self.lambda_role.role_arn,
+            description="Lambda execution role ARN",
+            export_name="RetailMindLambdaRoleArn"
+        )
