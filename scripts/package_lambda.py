@@ -65,7 +65,7 @@ class LambdaPackager:
             return
         
         print("Installing dependencies...")
-        subprocess.run(
+        result = subprocess.run(
             [
                 "pip", "install",
                 "-r", str(requirements_file),
@@ -73,9 +73,14 @@ class LambdaPackager:
                 "--upgrade",
                 "--no-cache-dir"
             ],
-            check=True,
-            capture_output=True
+            check=False,
+            capture_output=True,
+            text=True
         )
+        
+        if result.returncode != 0:
+            print(f"\nPip install failed with error:\n{result.stderr}")
+            raise subprocess.CalledProcessError(result.returncode, result.args, result.stdout, result.stderr)
     
     def _create_zip(self, source_dir: Path, zip_path: Path):
         """Create ZIP file from directory"""
