@@ -1,0 +1,122 @@
+[
+  {
+    "customer_id": "C001",
+    "name": "Rajesh Kumar",
+    "email": "rajesh.kumar@example.com",
+    "segment": "Premium",
+    "total_purchases": 45,
+    "lifetime_value": 125000.00,
+    "region": "North",
+    "join_date": "2023-01-15",
+    "last_purchase": "2026-03-05",
+    "preferred_category": "Electronics"
+  },
+  {
+    "customer_id": "C002",
+    "name": "Priya Sharma",
+    "email": "priya.sharma@example.com",
+    "segment": "Premium",
+    "total_purchases": 38,
+    "lifetime_value": 98500.00,
+    "region": "West",
+    "join_date": "2023-03-20",
+    "last_purchase": "2026-03-07",
+    "preferred_category": "Fashion"
+  },
+  {
+    "customer_id": "C003",
+    "name": "Amit Patel",
+    "email": "amit.patel@example.com",
+    "segment": "Regular",
+    "total_purchases": 22,
+    "lifetime_value": 45000.00,
+    "region": "West",
+    "join_date": "2023-06-10",
+    "last_purchase": "2026-03-06",
+    "preferred_category": "Electronics"
+  },
+  {
+    "customer_id": "C004",
+    "name": "Sneha Reddy",
+    "email": "sneha.reddy@example.com",
+    "segment": "Premium",
+    "total_purchases": 52,
+    "lifetime_value": 156000.00,
+    "region": "South",
+    "join_date": "2022-11-05",
+    "last_purchase": "2026-03-08",
+    "preferred_category": "Home & Living"
+  },
+  {
+    "customer_id": "C005",
+    "name": "Vikram Singh",
+    "email": "vikram.singh@example.com",
+    "segment": "Regular",
+    "total_purchases": 18,
+    "lifetime_value": 32000.00,
+    "region": "North",
+    "join_date": "2024-01-12",
+    "last_purchase": "2026-03-04",
+    "preferred_category": "Sports"
+  },
+  {
+    "customer_id": "C006",
+    "name": "Ananya Iyer",
+    "email": "ananya.iyer@example.com",
+    "segment": "Premium",
+    "total_purchases": 41,
+    "lifetime_value": 112000.00,
+    "region": "South",
+    "join_date": "2023-04-18",
+    "last_purchase": "2026-03-07",
+    "preferred_category": "Fashion"
+  },
+  {
+    "customer_id": "C007",
+    "name": "Rahul Verma",
+    "email": "rahul.verma@example.com",
+    "segment": "Regular",
+    "total_purchases": 15,
+    "lifetime_value": 28000.00,
+    "region": "East",
+    "join_date": "2024-02-25",
+    "last_purchase": "2026-03-03",
+    "preferred_category": "Electronics"
+  },
+  {
+    "customer_id": "C008",
+    "name": "Kavita Desai",
+    "email": "kavita.desai@example.com",
+    "segment": "VIP",
+    "total_purchases": 68,
+    "lifetime_value": 245000.00,
+    "region": "West",
+    "join_date": "2022-08-10",
+    "last_purchase": "2026-03-08",
+    "preferred_category": "Luxury"
+  },
+  {
+    "customer_id": "C009",
+    "name": "Sanjay Gupta",
+    "email": "sanjay.gupta@example.com",
+    "segment": "Regular",
+    "total_purchases": 25,
+    "lifetime_value": 52000.00,
+    "region": "North",
+    "join_date": "2023-09-15",
+    "last_purchase": "2026-03-05",
+    "preferred_category": "Home & Living"
+  },
+  {
+    "customer_id": "C010",
+    "name": "Meera Nair",
+    "email": "meera.nair@example.com",
+    "segment": "Premium",
+    "total_purchases": 35,
+    "lifetime_value": 89000.00,
+    "region": "South",
+    "join_date": "2023-07-22",
+    "last_purchase": "2026-03-06",
+    "preferred_category": "Beauty"
+  }
+]

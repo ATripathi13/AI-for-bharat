@@ -1,0 +1,31 @@
+product_id,product_name,category,current_stock,reorder_level,unit_cost,unit_price,supplier_id,last_restock_date,demand_trend,stock_status
+SKU001,Premium Laptop,Electronics,145,50,45000,65000,SUP001,2026-03-01,increasing,optimal
+SKU002,Wireless Mouse,Electronics,320,100,800,1500,SUP001,2026-03-05,stable,optimal
+SKU003,Mechanical Keyboard,Electronics,180,60,2500,4500,SUP001,2026-03-03,increasing,optimal
+SKU004,4K Monitor,Electronics,42,30,18000,28000,SUP002,2026-02-28,increasing,stockout_risk
+SKU005,Ergonomic Chair,Furniture,28,15,8000,15000,SUP003,2026-02-25,stable,stockout_risk
+SKU006,Standing Desk,Furniture,15,10,15000,28000,SUP003,2026-02-20,increasing,stockout_risk
+SKU007,Office Notebook,Stationery,850,300,50,120,SUP004,2026-03-06,stable,overstock
+SKU008,Premium Pen Set,Stationery,520,200,200,450,SUP004,2026-03-06,stable,overstock
+SKU009,Designer Backpack,Accessories,95,40,1200,2500,SUP005,2026-03-04,increasing,optimal
+SKU010,Smart Water Bottle,Accessories,210,80,400,850,SUP005,2026-03-04,stable,optimal
+SKU011,USB-C Hub,Electronics,380,150,600,1200,SUP001,2026-03-07,increasing,optimal
+SKU012,Webcam HD,Electronics,68,35,2800,5500,SUP002,2026-03-02,increasing,optimal
+SKU013,Desk Lamp LED,Furniture,125,50,1200,2400,SUP003,2026-03-01,stable,optimal
+SKU014,Whiteboard,Stationery,45,20,1500,3200,SUP004,2026-02-28,stable,optimal
+SKU015,Cable Organizer,Accessories,420,150,150,350,SUP005,2026-03-05,stable,optimal
+SKU016,Laptop Stand,Accessories,88,40,800,1800,SUP005,2026-03-03,increasing,optimal
+SKU017,Noise Cancelling Headphones,Electronics,52,25,8000,15000,SUP002,2026-03-01,increasing,optimal
+SKU018,Portable SSD 1TB,Electronics,95,40,4500,8500,SUP001,2026-03-04,increasing,optimal
+SKU019,Wireless Charger,Electronics,165,70,600,1200,SUP002,2026-03-06,stable,optimal
+SKU020,Smart Watch,Electronics,38,20,12000,22000,SUP002,2026-02-26,increasing,stockout_risk
+SKU021,Tablet 10 inch,Electronics,55,30,18000,32000,SUP001,2026-03-02,increasing,optimal
+SKU022,Bluetooth Speaker,Electronics,142,60,2500,4800,SUP002,2026-03-05,stable,optimal
+SKU023,Gaming Mouse,Electronics,78,35,2200,4200,SUP001,2026-03-03,increasing,optimal
+SKU024,Monitor Arm,Furniture,32,18,3500,6800,SUP003,2026-02-27,stable,stockout_risk
+SKU025,Desk Mat,Accessories,245,100,400,850,SUP005,2026-03-07,stable,optimal
+SKU026,Phone Stand,Accessories,310,120,250,550,SUP005,2026-03-06,stable,optimal
+SKU027,Document Scanner,Electronics,25,15,8500,16000,SUP002,2026-02-24,stable,stockout_risk
+SKU028,Printer Wireless,Electronics,18,12,12000,22000,SUP002,2026-02-22,stable,stockout_risk
+SKU029,Shredder,Electronics,22,10,5500,10500,SUP002,2026-02-26,stable,optimal
+SKU030,Filing Cabinet,Furniture,12,8,8000,15000,SUP003,2026-02-18,stable,stockout_risk

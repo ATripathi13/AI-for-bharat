@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <!-- Brain with circuit pattern (left side - blue) -->
+  <path d="M250 300 Q200 250 200 200 Q200 150 250 150 Q280 150 300 170 Q320 150 350 150 Q400 150 400 200 Q400 250 350 300 Q350 350 300 380 Q250 350 250 300 Z" fill="#1976d2" stroke="#0d47a1" stroke-width="3"/>
+  
+  <!-- Circuit nodes on brain -->
+  <circle cx="230" cy="200" r="8" fill="#64b5f6"/>
+  <circle cx="270" cy="180" r="8" fill="#64b5f6"/>
+  <circle cx="310" cy="200" r="8" fill="#64b5f6"/>
+  <circle cx="350" cy="220" r="8" fill="#64b5f6"/>
+  <circle cx="280" cy="250" r="8" fill="#64b5f6"/>
+  
+  <!-- Circuit connections -->
+  <line x1="230" y1="200" x2="270" y2="180" stroke="#64b5f6" stroke-width="2"/>
+  <line x1="270" y1="180" x2="310" y2="200" stroke="#64b5f6" stroke-width="2"/>
+  <line x1="310" y1="200" x2="350" y2="220" stroke="#64b5f6" stroke-width="2"/>
+  <line x1="280" y1="250" x2="270" y2="180" stroke="#64b5f6" stroke-width="2"/>
+  
+  <!-- Brain with circuit pattern (right side - orange) -->
+  <path d="M450 300 Q500 250 500 200 Q500 150 450 150 Q420 150 400 170 Q380 150 350 150 Q400 200 400 200 Q400 250 450 300 Q450 350 400 380 Q450 350 450 300 Z" fill="#ff6b35" stroke="#d84315" stroke-width="3"/>
+  
+  <!-- Circuit nodes on right brain -->
+  <circle cx="470" cy="200" r="8" fill="#ff9e6d"/>
+  <circle cx="430" cy="180" r="8" fill="#ff9e6d"/>
+  <circle cx="390" cy="200" r="8" fill="#ff9e6d"/>
+  <circle cx="450" cy="220" r="8" fill="#ff9e6d"/>
+  <circle cx="420" cy="250" r="8" fill="#ff9e6d"/>
+  
+  <!-- Circuit connections right -->
+  <line x1="470" y1="200" x2="430" y2="180" stroke="#ff9e6d" stroke-width="2"/>
+  <line x1="430" y1="180" x2="390" y2="200" stroke="#ff9e6d" stroke-width="2"/>
+  <line x1="450" y1="220" x2="430" y2="180" stroke="#ff9e6d" stroke-width="2"/>
+  <line x1="420" y1="250" x2="430" y2="180" stroke="#ff9e6d" stroke-width="2"/>
+  
+  <!-- Cloud computing symbol -->
+  <ellipse cx="350" cy="120" rx="60" ry="30" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <ellipse cx="320" cy="110" rx="40" ry="25" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <ellipse cx="380" cy="110" rx="40" ry="25" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  
+  <!-- Store/Shop icon -->
+  <rect x="280" y="450" width="140" height="100" fill="#fff" stroke="#1976d2" stroke-width="3" rx="5"/>
+  <path d="M270 450 L350 420 L430 450 Z" fill="#ff6b35" stroke="#d84315" stroke-width="3"/>
+  <rect x="310" y="490" width="30" height="40" fill="#64b5f6"/>
+  <rect x="360" y="490" width="30" height="40" fill="#64b5f6"/>
+  <line x1="270" y1="450" x2="430" y2="450" stroke="#1976d2" stroke-width="3"/>
+  
+  <!-- Rupee symbol -->
+  <g transform="translate(520, 280)">
+    <circle cx="0" cy="0" r="50" fill="#ff6b35" stroke="#d84315" stroke-width="3"/>
+    <text x="-20" y="20" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#fff">₹</text>
+  </g>
+  
+  <!-- Price tag -->
+  <path d="M600 250 L650 250 L670 280 L650 310 L600 310 Z" fill="#ff9e6d" stroke="#d84315" stroke-width="2"/>
+  <circle cx="640" cy="280" r="5" fill="#fff"/>
+  
+  <!-- Bar chart icon -->
+  <rect x="180" y="420" width="30" height="60" fill="#ff6b35"/>
+  <rect x="220" y="400" width="30" height="80" fill="#ff9e6d"/>
+  <rect x="260" y="380" width="30" height="100" fill="#ff6b35"/>
+  <rect x="300" y="360" width="30" height="120" fill="#ff9e6d"/>
+  
+  <!-- Shield/Security icon -->
+  <path d="M550 450 Q550 420 580 420 Q610 420 610 450 Q610 500 580 520 Q550 500 550 450 Z" fill="#64b5f6" stroke="#1976d2" stroke-width="3"/>
+  <path d="M565 455 L575 465 L595 440" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Text -->
+  <text x="400" y="620" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle">
+    <tspan fill="#1976d2">Retail</tspan><tspan fill="#ff6b35">Mind</tspan>
+    <tspan fill="#1976d2"> AI</tspan>
+  </text>
+</svg>

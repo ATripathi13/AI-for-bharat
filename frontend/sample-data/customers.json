@@ -1,0 +1,26 @@
+﻿[
+  {
+    "customer_id": "C001",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "segment": "Premium",
+    "total_purchases": 15,
+    "lifetime_value": 4500.00
+  },
+  {
+    "customer_id": "C002",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "segment": "Regular",
+    "total_purchases": 8,
+    "lifetime_value": 1200.00
+  },
+  {
+    "customer_id": "C003",
+    "name": "Bob Johnson",
+    "email": "bob.johnson@example.com",
+    "segment": "Premium",
+    "total_purchases": 12,
+    "lifetime_value": 3800.00
+  }
+]

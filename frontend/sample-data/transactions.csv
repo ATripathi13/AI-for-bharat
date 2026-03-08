@@ -1,0 +1,11 @@
+﻿transaction_id,date,product_id,product_name,category,quantity,unit_price,total_amount,store_id,customer_id
+TXN001,2024-03-01,P001,Laptop,Electronics,2,899.99,1799.98,S001,C001
+TXN002,2024-03-01,P002,Mouse,Electronics,5,29.99,149.95,S001,C002
+TXN003,2024-03-02,P003,Keyboard,Electronics,3,79.99,239.97,S002,C003
+TXN004,2024-03-02,P004,Monitor,Electronics,1,299.99,299.99,S001,C001
+TXN005,2024-03-03,P005,Desk Chair,Furniture,2,199.99,399.98,S003,C004
+TXN006,2024-03-03,P001,Laptop,Electronics,1,899.99,899.99,S002,C005
+TXN007,2024-03-04,P006,Notebook,Stationery,10,4.99,49.90,S001,C002
+TXN008,2024-03-04,P007,Pen Set,Stationery,15,9.99,149.85,S003,C006
+TXN009,2024-03-05,P008,Backpack,Accessories,4,49.99,199.96,S002,C007
+TXN010,2024-03-05,P009,Water Bottle,Accessories,8,19.99,159.92,S001,C003

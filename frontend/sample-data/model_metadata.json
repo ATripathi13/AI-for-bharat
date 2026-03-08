@@ -1,0 +1,11 @@
+﻿{
+  "model_name": "demand_forecast_v1",
+  "model_type": "time_series",
+  "created_date": "2024-03-01",
+  "accuracy": 0.87,
+  "parameters": {
+    "algorithm": "ARIMA",
+    "seasonality": "weekly",
+    "forecast_horizon": 30
+  }
+}

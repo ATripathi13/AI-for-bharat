@@ -1,0 +1,41 @@
+transaction_id,date,product_id,product_name,category,quantity,unit_price,total_amount,store_id,customer_id,region,payment_method
+TXN001,2026-03-01,SKU001,Premium Laptop,Electronics,2,65000,130000,S001,C001,North,Credit Card
+TXN002,2026-03-01,SKU002,Wireless Mouse,Electronics,5,1500,7500,S001,C002,West,UPI
+TXN003,2026-03-02,SKU003,Mechanical Keyboard,Electronics,3,4500,13500,S002,C003,West,Debit Card
+TXN004,2026-03-02,SKU004,4K Monitor,Electronics,1,28000,28000,S001,C001,North,Credit Card
+TXN005,2026-03-03,SKU005,Ergonomic Chair,Furniture,2,15000,30000,S003,C004,South,Credit Card
+TXN006,2026-03-03,SKU001,Premium Laptop,Electronics,1,65000,65000,S002,C005,North,EMI
+TXN007,2026-03-04,SKU007,Office Notebook,Stationery,25,120,3000,S001,C002,West,Cash
+TXN008,2026-03-04,SKU008,Premium Pen Set,Stationery,15,450,6750,S003,C006,South,UPI
+TXN009,2026-03-05,SKU009,Designer Backpack,Accessories,4,2500,10000,S002,C007,East,Debit Card
+TXN010,2026-03-05,SKU010,Smart Water Bottle,Accessories,8,850,6800,S001,C003,West,UPI
+TXN011,2026-03-05,SKU017,Noise Cancelling Headphones,Electronics,2,15000,30000,S002,C004,South,Credit Card
+TXN012,2026-03-06,SKU018,Portable SSD 1TB,Electronics,3,8500,25500,S001,C008,West,Credit Card
+TXN013,2026-03-06,SKU020,Smart Watch,Electronics,1,22000,22000,S003,C006,South,EMI
+TXN014,2026-03-06,SKU021,Tablet 10 inch,Electronics,2,32000,64000,S002,C001,North,Credit Card
+TXN015,2026-03-07,SKU022,Bluetooth Speaker,Electronics,4,4800,19200,S001,C009,North,UPI
+TXN016,2026-03-07,SKU023,Gaming Mouse,Electronics,3,4200,12600,S002,C007,East,Debit Card
+TXN017,2026-03-07,SKU011,USB-C Hub,Electronics,10,1200,12000,S003,C010,South,Cash
+TXN018,2026-03-08,SKU012,Webcam HD,Electronics,2,5500,11000,S001,C002,West,UPI
+TXN019,2026-03-08,SKU013,Desk Lamp LED,Furniture,5,2400,12000,S002,C005,North,Debit Card
+TXN020,2026-03-08,SKU016,Laptop Stand,Accessories,6,1800,10800,S003,C004,South,UPI
+TXN021,2026-02-28,SKU001,Premium Laptop,Electronics,3,65000,195000,S001,C008,West,Credit Card
+TXN022,2026-02-28,SKU004,4K Monitor,Electronics,2,28000,56000,S002,C001,North,EMI
+TXN023,2026-02-29,SKU006,Standing Desk,Furniture,1,28000,28000,S003,C004,South,Credit Card
+TXN024,2026-02-29,SKU017,Noise Cancelling Headphones,Electronics,3,15000,45000,S001,C006,South,Credit Card
+TXN025,2026-03-01,SKU020,Smart Watch,Electronics,2,22000,44000,S002,C008,West,EMI
+TXN026,2026-03-01,SKU021,Tablet 10 inch,Electronics,1,32000,32000,S003,C010,South,Credit Card
+TXN027,2026-03-02,SKU005,Ergonomic Chair,Furniture,3,15000,45000,S001,C001,North,Credit Card
+TXN028,2026-03-02,SKU018,Portable SSD 1TB,Electronics,4,8500,34000,S002,C003,West,Debit Card
+TXN029,2026-03-03,SKU022,Bluetooth Speaker,Electronics,6,4800,28800,S003,C009,North,UPI
+TXN030,2026-03-03,SKU023,Gaming Mouse,Electronics,5,4200,21000,S001,C007,East,Credit Card
+TXN031,2026-03-04,SKU012,Webcam HD,Electronics,3,5500,16500,S002,C002,West,UPI
+TXN032,2026-03-04,SKU019,Wireless Charger,Electronics,8,1200,9600,S003,C005,North,Cash
+TXN033,2026-03-05,SKU024,Monitor Arm,Furniture,2,6800,13600,S001,C004,South,Debit Card
+TXN034,2026-03-05,SKU025,Desk Mat,Accessories,12,850,10200,S002,C006,South,UPI
+TXN035,2026-03-06,SKU026,Phone Stand,Accessories,15,550,8250,S003,C009,North,Cash
+TXN036,2026-03-06,SKU013,Desk Lamp LED,Furniture,4,2400,9600,S001,C010,South,UPI
+TXN037,2026-03-07,SKU016,Laptop Stand,Accessories,7,1800,12600,S002,C003,West,Debit Card
+TXN038,2026-03-07,SKU011,USB-C Hub,Electronics,12,1200,14400,S003,C008,West,UPI
+TXN039,2026-03-08,SKU002,Wireless Mouse,Electronics,10,1500,15000,S001,C001,North,Credit Card
+TXN040,2026-03-08,SKU003,Mechanical Keyboard,Electronics,6,4500,27000,S002,C004,South,EMI
